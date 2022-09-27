@@ -4,6 +4,9 @@ const fs = require("fs");
 const Router = require("express").Router();
 
 Router.get("/notes", (req,res) => {
+    console.log('hi');
+    console.log('hi', path.join(__dirname, "../public/notes.html"))
+    console.log('hi');
     res.sendFile(path.join(__dirname, "../public/notes.html"))
 })
 
