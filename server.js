@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 
 
-//setting a port
+//telling our app to use an environment variable to make it deployable to Heroku
 const PORT = process.env.PORT || 3001;
 
 app.use(express.static('public'));
