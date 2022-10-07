@@ -5,34 +5,48 @@ const db = require("../db/db.json")
 
 
 router.get('/notes', (req,res)=> {
-    db = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'))
-
-    res.json(db);
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+    if(err)
+      return res.status(400).json({error: 'Unable to retrieve notes'})
+    res.json(JSON.parse(data));
+  })
 });
 
 
 router.post('/notes', ({body}, res) => {
 
-    //new note form
+     //new note form
     let newNote= {
         id: Math.floor(Math.random()*1000),
-        title: req.body.title,
-        text: req.body.text
+        title: body.title,
+        text: body.text
     }
 
     db.push(newNote);
     fs.writeFileSync('./db/db.json', JSON.stringify(db), (err, res) => {
       if(err) {
-        res.status(400).json()({ error: err.message});
+        res.status(400).json({ error: err.message});
       }
     });
   
     res.json({
         message: "Success",
         data:body
-    
     })
 });
+
+router.delete('/notes/:id', (req, res) => {
+  const id = req.params.id
+
+  fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+    const jsonData = JSON.parse(data);
+    const filteredData = jsonData.filter(i => i.id === id)
+ 
+    fs.writeFile('./db/db.json', JSON.stringify(filteredData), () => {
+      res.status(200).json(filteredData)
+    })
+  })
+})
 
 module.exports = router;
 

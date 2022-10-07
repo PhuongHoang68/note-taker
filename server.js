@@ -17,7 +17,7 @@ app.use(express.json());
 
 
 //telling our server where to file our Routes files by creating end-points
-app.use('api', apiRoutes);
+app.use('/api', apiRoutes);
 app.use('/', htmlRoutes);
 
 //port listener 
